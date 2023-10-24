@@ -34,7 +34,8 @@ def seedNoImpact(tempSeed, tempInterval, tempPRNG):
             return False
     return True
 
-#
+#Test if the difference between two adjacent or numbers is at least 6 times the same.
+#In that case function discards the PRNG
 def notCycling(tempSeed, tempInterval, tempPRNG):
     output = memorise(tempSeed, tempInterval, tempPRNG)
     delta = []
@@ -53,6 +54,7 @@ def notCycling(tempSeed, tempInterval, tempPRNG):
         return False
     return True
 
+#Function used to output a sequence from the PRNG and send it to the needed functions as a list.
 def memorise(tempSeed, tempInterval, tempPRNG):
     output = []
     prng = tempPRNG(tempSeed, tempInterval)
@@ -60,6 +62,8 @@ def memorise(tempSeed, tempInterval, tempPRNG):
         output.append(prng.next_int())
     return output
 
+#Main function calling one by one each method to test the PRNG. 
+#Tests are conducted on seeds from -100 to 100 with a 100 range wide interval
 def is_correct(PRNG):
     interval = 100
     for seed in range(-100, 100):
