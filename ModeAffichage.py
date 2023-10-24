@@ -1,21 +1,20 @@
 
 #Code pour choisir le mode d'affichage
-#On attribue des variables à des valeurs. 
-cotation_1 = 3 
-cotation_2 = 2
-cotation_3 = 4
+#Cette fonction demande à l'utilisateur de choisir un mode d'affichage et en fonction de sa réponse, 
+#le mode sera stocké dans une variable afin de savoir quel mode utiliser lors de la visualisation des points.
 
-#Cette fonction demande à l'utilisateur de choisir un mode d'affichage et en fonction de sa réponse, un mode lui sera affiché  
-def selection_1():
+#in main: have a variable "evalMode" containing the defalut value 0 (comparative mode)
+#in main: evalMode = selection()
+def EvaluationModeSelection()
     reponse = input("Choisissez un mode d'affichage: ")
     if reponse == "mode comparatif":
-        return(0, cotation_1, cotation_2, cotation_3)
+        return(0)
     elif reponse == "mode evaluation":
         lequel = input("Quel mode de cotation voulez-vous choisir? ")
         if lequel == "cotation 1":
-            return(1, cotation_1)
+            return(1)
         elif lequel == "cotation 2":
-            return(2, cotation_2)
+            return(2)
         elif lequel == "cotation 3":
-            return(3, cotation_3)
+            return(3)
 selection_1()
