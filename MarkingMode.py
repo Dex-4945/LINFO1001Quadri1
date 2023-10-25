@@ -17,7 +17,12 @@ if ("""button trigger"""):
 #my function
 #Function calculates points 
 def doTheMath(mode, question, answer):
-  isCorrect = false;
+  isCorrect == False
+  if answer >= 0:
+    isCorrect = question[1][answer][2];
+  if isCorrect:
+    if mode == 1:
+      if isCorrect
   return 0
 #Stores points according to each marking method in list
 def markMe(evalMode, answers, questions):
