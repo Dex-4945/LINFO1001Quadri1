@@ -35,8 +35,9 @@ def doTheMath(mode, question, answer, totalQ, totalA):
     if mode == 2 or mode == 3:
       return -1
   return 0
+  
 #Stores points according to each marking method in list
-def markMe(evalMode, answers, questions):
+def markMe(answers, questions):
   #marks[] contains three values, one for each marking method
   marks = []
   totalQ = len(questions)
