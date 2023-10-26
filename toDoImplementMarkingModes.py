@@ -2,9 +2,6 @@
 
 #store a list of answers as unanswered (value = -1)
 answers = []
-for i in questions:
-  answers[i] = -1
-
 if ("""button1 2 or 3 checked"""):
   #pass value 0, 1 or 2 to answers[number of the question]
 if ("""button unchecked"""):
