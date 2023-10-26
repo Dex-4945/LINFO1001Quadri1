@@ -4,32 +4,29 @@ import qcm
 root = Tk()
 frm = ttk.Frame(root, padding=10)
 frm.grid()
+
 class Question():
     def __init__(self, questionLine):
         self.name = questionLine[0]
         self.answers = questionLine[1]
         self.choices = len(self.answers)
 
-
 questionnaire = qcm.build_questionnaire('QCM.txt')
 questions = []
 for i in range(len(questionnaire)):
     questions.append(Question(questionnaire[i]))
 progress = 0
-print("hello")
 
 def nextQuestion():
     global progress
     if(progress + 1 < len(questions)):
         progress += 1
-        print(progress)
     showQuestion()
 
 def previousQuestion():
     global progress
     if(progress != 0):
         progress -= 1
-        print(progress)
     showQuestion()
 
 def showQuestion():
