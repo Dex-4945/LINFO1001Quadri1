@@ -1,47 +1,118 @@
 from tkinter import *
 from tkinter import ttk
-import qcm
 root = Tk()
 frm = ttk.Frame(root, padding=10)
 frm.grid()
+t2 = ttk.Frame(root, padding=10)
+t2.grid()
 
-class Question():
-    def __init__(self, questionLine):
-        self.name = questionLine[0]
-        self.answers = questionLine[1]
-        self.choices = len(self.answers)
+class Question:
+    name = ""
+    reponse = []
+    def __init__(self, name):
+        name = self.name
+        reponse = []
+        return
 
-questionnaire = qcm.build_questionnaire('QCM.txt')
-questions = []
-input = []
-for i in range(len(questionnaire)):
-    questions.append(Question(questionnaire[i]))
-    input.append(-1)
-progress = 0
+class Questionnaire:
+    listQuestion = []
+    label_List = []
 
-def nextQuestion():
-    global progress
-    if(progress + 1 < len(questions)):
-        progress += 1
-    showQuestion()
+    point_Bonne = 1
+    point_Mauvais = -0.5
 
-def previousQuestion():
-    global progress
-    if(progress != 0):
-        progress -= 1
-    showQuestion()
+    choix = [0,3,1]
 
-def showQuestion():
-    for widget in frm.winfo_children():
-        widget.grid_remove()
-    ttk.Button(frm, text="<--", command=previousQuestion).grid(column=0, row=0)
-    ttk.Button(frm, text="-->", command=nextQuestion).grid(column=2, row=0)
-    ttk.Label(frm, text=questions[progress].name).grid(column=1, row=1)
-    for i in range(questions[progress].choices):
-        ttk.Label(frm, text=questions[progress].answers[i][0]).grid(column=1, row=i+2)
+    index = 0
 
-ttk.Button(frm, text="<--", command=previousQuestion).grid(column=0, row=0)
-ttk.Button(frm, text="-->", command=nextQuestion).grid(column=2, row=0)
-showQuestion()
+    def __init__(self):
+        ttk.Button(frm, text="<-", command=self.PrevQuestion).grid(column=0, row=0)
+        ttk.Button(frm, text="->", command=self.NextQuestion).grid(column=2, row=0)
+
+
+        self.ReadFile("QCM.txt")
+        self.ShowQuestion(self.index)
+
+        
+        for question in self.listQuestion:
+            print(question.name)
+            for reponse in question.reponse:
+                print(reponse)
+
+
+
+        self.moyenneCalculator()
+
+        return
+
+
+    def moyenneCalculator(self):
+        moyenne = 0
+        for index in range(len(self.listQuestion)-1):
+            print(self.listQuestion[index].reponse[self.choix[index]][1] == 'V')
+            if(self.listQuestion[index].reponse[self.choix[index]][1] == 'V'):
+                moyenne += self.point_Bonne
+            else:
+                moyenne += self.point_Mauvais
+        print(moyenne)
+        return 
+
+
+
+
+    def NextQuestion(self):
+        
+        self.index+=1
+        self.ShowQuestion(self.index)
+    def PrevQuestion(self):
+        if(self.index !=0):
+            self.index-=1
+        self.ShowQuestion(self.index)
+
+
+           
+            
+        
+
+    def ShowQuestion(self, index):
+        self.label_List = []
+        ttk.Label(t2, text=self.listQuestion[index].name).grid(column=1, row=0)
+
+        for i in range(len(self.listQuestion[index].reponse)):
+            ttk.Label(t2, text=self.listQuestion[index].reponse[i]).grid(column=1, row=i+1)
+
+
+
+
+
+    def ReadFile(self, filename):
+        f = open(filename, "r")
+        for line in f:
+            if(line.startswith("Q")):
+                q = Question("name")
+                line = line.strip("\n")
+                line = line.split("|")
+
+                q.name = line[1]
+                q.reponse = []
+            elif(line.startswith("A")):
+                line = line.strip("\n")
+                line = line.split("|")
+                
+                q.reponse.append(line[1:])
+            elif(line.startswith("\n")):
+                self.listQuestion.append(q)
+                
+
+
+            
+
+
+
+questionnaire = Questionnaire()
+
+
+
+
 
 root.mainloop()
