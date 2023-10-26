@@ -12,9 +12,9 @@ def markMe(answers, questions):
   marks = [[0, 0, 0], []]
   for q in range(len(questions)):
     isCorrect = False
-    if answers[q] >= 0:
-      isCorrect = questions[1][answers[q]][2];
-    if isCorrect:
+    if answers[q] > 0:
+      isCorrect = questions[q][1][answers[q] - 1][1]
+    if isCorrect == True:
       marks[0][0] += 1
       marks[0][1] += 1
       marks[0][2] += ((totalA/totalQ) - 1)
