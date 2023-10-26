@@ -13,8 +13,10 @@ class Question():
 
 questionnaire = qcm.build_questionnaire('QCM.txt')
 questions = []
+input = []
 for i in range(len(questionnaire)):
     questions.append(Question(questionnaire[i]))
+    input.append(-1)
 progress = 0
 
 def nextQuestion():
