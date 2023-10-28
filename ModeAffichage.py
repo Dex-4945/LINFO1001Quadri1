@@ -17,4 +17,6 @@ def EvaluationModeSelection()
             return(2)
         elif lequel == "cotation 3":
             return(3)
+    else:
+        print("Choisissez un mode d'affichage valide.")
 selection_1()
