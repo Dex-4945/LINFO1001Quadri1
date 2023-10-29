@@ -13,7 +13,6 @@ class Question():
         self.answers = questionLine[1]
         self.choices = len(self.answers)
 
-
 questionnaire = qcm.build_questionnaire('QCM.txt')
 progress = 0
 reDisplay = True
@@ -40,6 +39,8 @@ def storeOrEraseInput(answerNum):
     print(answerNum)
     if input[progress] == -1:
         input[progress] = answerNum
+    elif input[progress] != answerNum:
+        input[progress] = answerNum
     else:
         input[progress] = -1
     showQuestion()
@@ -60,4 +61,3 @@ def showQuestion():
 showQuestion()
 
 root.mainloop()
-frm.mainloop()
