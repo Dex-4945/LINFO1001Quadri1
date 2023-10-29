@@ -1,11 +1,11 @@
-from tkinter import *
+import tkinter as tk
 from tkinter import ttk
 import qcm
-root = Tk()
+root = tk.Tk()
 frm = ttk.Frame(root, padding = 10)
 frm.grid()
-style = ttk.Style()
-#style.map('TButton', background=[('isChosen', 'blue')], foreground=[('isChosen', 'blue')])
+ttk.Style().configure('blue.TButton', background = 'blue', padding = '')
+ttk.Style().configure('white.TButton', background = 'white', padding = '')
 
 class Question():
     def __init__(self, questionLine):
@@ -16,6 +16,7 @@ class Question():
 
 questionnaire = qcm.build_questionnaire('QCM.txt')
 progress = 0
+reDisplay = True
 
 questions = []
 input = []
@@ -36,35 +37,27 @@ def previousQuestion():
     showQuestion()
 
 def storeOrEraseInput(answerNum):
-    #toggleState()
+    print(answerNum)
     if input[progress] == -1:
         input[progress] = answerNum
     else:
         input[progress] = -1
-
-"""
-toggled = ttk.BooleanVar()
-toggled.set(False)
-
-def toggleState():
-    if toggled.get():
-        toggled.set(False)
-    else:
-        toggled.set(True)
-    #button.state(['!isChosen', 'isChosen'][toggled.get()])
-"""
+    showQuestion()
 
 def showQuestion():
+    answerButtons = []
     for widget in frm.winfo_children():
         widget.grid_remove()
     ttk.Button(frm, text = "<--", command = previousQuestion).grid(column = 0, row = 0)
     ttk.Button(frm, text = "-->", command = nextQuestion).grid(column = 2, row = 0)
     ttk.Label(frm, text = questions[progress].name).grid(column = 1, row = 1)
     for i in range(questions[progress].choices):
-        ttk.Button(frm, text = questions[progress].answers[i][0], command = storeOrEraseInput(i)).grid(column = 1, row = i+2)
-
-ttk.Button(frm, text = "<--", command = previousQuestion).grid(column = 0, row = 0)
-ttk.Button(frm, text = "-->", command = nextQuestion).grid(column = 2, row = 0)
+        if input[progress] == i:
+            answerButtons.append(ttk.Button(frm, text = questions[progress].answers[i][0], command = lambda i = i: storeOrEraseInput(i), style = 'blue.TButton'))
+        else:
+            answerButtons.append(ttk.Button(frm, text = questions[progress].answers[i][0], command = lambda i = i: storeOrEraseInput(i), style = 'white.TButton'))
+        answerButtons[i].grid(column = 1, row = i + 2)
 showQuestion()
 
 root.mainloop()
+frm.mainloop()
