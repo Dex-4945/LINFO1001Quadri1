@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 import qcm
+import random
 root = tk.Tk()
 frm = ttk.Frame(root, padding = 10)
 frm.grid()
@@ -16,12 +17,26 @@ class Question():
 questionnaire = qcm.build_questionnaire('QCM.txt')
 progress = 0
 reDisplay = True
+answerOrder = []
 
 questions = []
 input = []
 for i in range(len(questionnaire)):
     questions.append(Question(questionnaire[i]))
     input.append(-1)
+for i in range(len(questions)):
+    answerOrder.append([])
+    for j in range(len(questions[i].answers)):
+        answerOrder[i].append(-1)
+            
+for i in range(len(answerOrder)):
+    for j in range(len(answerOrder[i])):
+        while answerOrder[i][j] == -1:
+            rNum = random.randint(0, len(answerOrder[i])-1)
+            answerOrder[i][j] = rNum
+            for k in range(0, j):
+                if answerOrder[i][k] == rNum:
+                    answerOrder[i][j] = -1
 
 def nextQuestion():
     global progress
@@ -54,9 +69,9 @@ def showQuestion():
     ttk.Label(frm, text = questions[progress].name).grid(column = 1, row = 1)
     for i in range(questions[progress].choices):
         if input[progress] == i:
-            answerButtons.append(ttk.Button(frm, text = questions[progress].answers[i][0], command = lambda i = i: storeOrEraseInput(i), style = 'blue.TButton'))
+            answerButtons.append(ttk.Button(frm, text = questions[progress].answers[answerOrder[progress][i]][0], command = lambda i = i: storeOrEraseInput(i), style = 'blue.TButton'))
         else:
-            answerButtons.append(ttk.Button(frm, text = questions[progress].answers[i][0], command = lambda i = i: storeOrEraseInput(i), style = 'white.TButton'))
+            answerButtons.append(ttk.Button(frm, text = questions[progress].answers[answerOrder[progress][i]][0], command = lambda i = i: storeOrEraseInput(i), style = 'white.TButton'))
         answerButtons[i].grid(column = 1, row = i + 2)
 showQuestion()
 
