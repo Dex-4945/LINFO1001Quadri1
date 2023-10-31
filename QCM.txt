@@ -14,4 +14,4 @@ Q|Quel est l'équivalent américain de l'ESA (European Space Agency) ?
 A|NASA|V|Bravo! C'est exacte!
 A|NSA|X|La NSA est la National Security Agency
 A|FBI|X|Pour le coup c'est le Federal Bureau of Investigation ça...
-A|NYPD|X|Celui-ci, c'est le New York Police District
+A|NYPD|X|Celui-ci, c'est le New York Police Departement
