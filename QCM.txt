@@ -1,7 +1,7 @@
 Q|Quelle est la couleur du cheval blanc de Napoléon ?
 A|Blanc|V|Bravo tu sais lire!
-A|Bleu|X|Tu sais lire au moins?
-A|Violet|X|Tu sais lire au moins?
+A|Bleu|X|Relis la question ; )
+A|Violet|X|Relis la question ; )
 
 Q|Combien de jours y-a-t'il au maximum dans un mois ?
 A|28|X|Certains en ont plus
@@ -11,7 +11,7 @@ A|31|V|C'est exacte!
 A|25|X|Certains en ont plus
 
 Q|Quel est l'équivalent américain de l'ESA (European Space Agency) ?
-A|NASA|V|BG!!
+A|NASA|V|Bravo! C'est exacte!
 A|NSA|X|La NSA est la National Security Agency
 A|FBI|X|Pour le coup c'est le Federal Bureau of Investigation ça...
 A|NYPD|X|Celui-ci, c'est le New York Police District
