@@ -63,29 +63,50 @@ for i in range(len(questions)-1):
     for j in range(len(questions[i].answers)):
         answerOrder[i].append(-1)
         amountAnswers += 1
-#This loop iterates through the 2D list answerOrder
+#This loop iterates through the 2D list answerOrder to store in it random integers ranging from 0 to the number of answers there are for each question.
+#We want to make sure the same random number isn't chosen twice. The chosen method:
+#The entire list has been previously initialized to -1. as long as the value of the current indexes is -1, we try to store a random integer.
+#Why "as long as", since the value will be changed to a positif integer after a random integer will be chosen?
+#Because if my index isn't the first one, I make sure the chosen number hasn't already been assigned to z previous index of this same question.
+#If the number was already assigned then we put back -1 as value at the current index and the loop can start again until it finds a not yet chosen random number.
 for i in range(len(answerOrder)):
     for j in range(len(answerOrder[i])):
         while answerOrder[i][j] == -1:
-            rNum = random.randint(0, len(answerOrder[i])-1)
+            rNum = int((random.randint(0, ((len(answerOrder[i])-1)*10)))/10)
             answerOrder[i][j] = rNum
             for k in range(0, j):
                 if answerOrder[i][k] == rNum:
                     answerOrder[i][j] = -1
+#This variable calculates the maximum amount of points the user can get with each marking method.
+#First mode: +1 per good answer so maximum amount of points = amount of questions.
+#Second mode: +1 per good answer so maximum amount of points = amount of questions.
+#Third mode: amount of questions * points per question. The formula for the points per question = (amount of answers / (amount of questions - 1)).
+#The choice of this formula should make the points of a user choosing his answers randomly average to zero.
 maxPoints = [(len(questions) - 1), (len(questions) - 1), ((len(questions) - 1) * ((amountAnswers/(len(questions) - 1)) - 1))]
 
+#This function allows to display the next question of the questionnaire and is called by a click on the corresponding button (-->).
+#We achieve this by adding a value to the 'progress' variable, but only if the last question isn't reached. This prevents out-of-bounds errors.
+#After that we call the function again to display the question according to the value given to 'progress'
 def nextQuestion():
     global progress
     if(progress + 1 < len(questions)):
         progress += 1
     showQuestion()
 
+#This function allows to display the previous question of the questionnaire and is called by a click on the corresponding button (<--).
+#I achieve this by subtracting a value to the 'progress' variable, but only if the first question isn't being displayed. This prevents out-of-bounds errors.
+#After that we call the function again to display the question according to the value given to 'progress'
 def previousQuestion():
     global progress
     if(progress != 0):
         progress -= 1
     showQuestion()
 
+#This function is called <hen an answered has been chosen by the user by a click on it.
+#If the question was unanswered (value -1) then we store the index of the question in the list.
+#If the question was already answered and the user clicked again on the same answer as to deselect it, then we reset the value to unanswered (value -1)
+#If the question was already answered and the user choses a new answer by clicking on it then we simply change the stored value to the newly chosen one.
+#We then call the next question function.
 def storeOrEraseInput(answerNum):
     if input[progress] == -1:
         input[progress] = answerNum
@@ -94,11 +115,12 @@ def storeOrEraseInput(answerNum):
     else:
         input[progress] = -1
     nextQuestion()
-    showQuestion()
 
-#Stores points according to each marking method in list
+#This function stores points according to each marking method in a list
+#Marks[0] contains three values, one for each marking method
+#Marks[1] is the sequence of values for each chosen answer (True or False)
+#Returns the list
 def markMe(input, questions):
-    #marks[] contains three values, one for each marking method
     marks = [[0, 0, 0], []]
     for q in range(len(questions)-1):
         isCorrect = False
@@ -115,6 +137,8 @@ def markMe(input, questions):
             marks[1].append(False)
     return marks
 
+#This function arranges all the elemnts in the grade-displaying window
+#details
 def showAll(previousRow, mode, frmGrades):
     for i in range(len(questions) - 1):
         ttk.Label(frmGrades, text = questions[i].name).grid(column = 1, row = previousRow + 1)
@@ -181,6 +205,8 @@ def showAll(previousRow, mode, frmGrades):
             ttk.Label(frmGrades, text = "Total : " + str(results[0][i]) + "/" + str(maxPoints[i])).grid(column = 2 + i, row = previousRow)
     return previousRow
 
+#This function initializes the grade-displaying window
+#details
 def displayGrades(mode):
     rootGrades = tk.Tk()
     rootGrades.title("Grades")
@@ -216,6 +242,8 @@ def displayGrades(mode):
 
     canvas.bind("<Configure>", on_configure)
 
+#When the user wants to submit his answers and get graded, a click on the "submit" buttons calls this function.
+#This function displays buttons that make the user choose the way he wants his grades to be displayed (three modes + a comparative one)
 def submit():
     for widget in frm.winfo_children():
         widget.grid_remove()
@@ -231,6 +259,7 @@ def submit():
     ttk.Label(frm, text = "").grid(column = 0, row = 7)
     ttk.Button(frm, text = "Finish", command = root.destroy).grid(column = 0, row = 8)
 
+#This is the main function that displays every single question, answers in a random order, buttons to go to the previous or next question and final submission button.
 def showQuestion():
     for widget in frm.winfo_children():
         widget.grid_remove()
@@ -249,6 +278,9 @@ def showQuestion():
     if progress == len(questions)-1:
         ttk.Button(frm, text = "Submit", command = submit).grid(column = 1, row = 5)
         ttk.Label(frm, text = "").grid(column = 0, row = 6)
+
+#This function call starts the entire program by launching the display of the questionnaire.
 showQuestion()
 
+#this command makes the program loop until stopped.
 root.mainloop()
