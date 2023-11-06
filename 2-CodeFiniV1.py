@@ -52,13 +52,18 @@ for i in range(len(questionnaire)):
     questions.append(Question(questionnaire[i]))
     input.append(-1)
 #Because after the questions I wanted to display this message before ending the first stage og the test (answering), I stored it at the end of the questions array without any answers.
+#The parameter I wrote to the Question class is a list because that is what it would have received from the questionnaire list
 questions.append(Question(["Are you ready to submit your answers?", []]))
-#This loop creates a new empty list 
+#This loop creates a new empty list at the end of the answerOrder list as long as it hasn't created a number of lists matching the number of objects stored in the questions list.
+#The amount specified in the range of the outer loop is ... -1 because the last object is a message ("Are you ready to submit your answers?"), not a question with answers.
 for i in range(len(questions)-1):
     answerOrder.append([])
+    #This loop initialises the list just created in answerOrder with the value -1. This will be usefull in the next loop.
+    #It also ads a value to amountAnswers every time an answer is stored. That way the exact number of answers is counted into the variable.
     for j in range(len(questions[i].answers)):
         answerOrder[i].append(-1)
         amountAnswers += 1
+#This loop iterates through the 2D array to 
 for i in range(len(answerOrder)):
     for j in range(len(answerOrder[i])):
         while answerOrder[i][j] == -1:
