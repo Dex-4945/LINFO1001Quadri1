@@ -1,32 +1,59 @@
+#import necessary libraries for Tkinter which allows to create a window and determine where and how elemnts should be placed inside it.
 import tkinter as tk
 from tkinter import ttk
+#import the library that allows to parse the text file containning the questions, answers and descriptions of the questionnaire
 import qcm
+#import the random library to randomise the order in which the answers are displayed to the user
 import random
+
+#create a window
 root = tk.Tk()
+#create a frame inside that window so we can arrange our elements inside it.
 frm = ttk.Frame(root, padding = 10)
+#use the grid() method (as oppposed to pack() method) to arrange our elements. grid is more precise than pack
 frm.grid()
+#determine two ways styles for the buttons. Meaning one style will make their background blue, the other style is white.
 ttk.Style().configure('blue.TButton', background = 'blue', padding = '')
 ttk.Style().configure('white.TButton', background = 'white', padding = '')
 
+#initialize a class that will allow to handle questions and their answers as objects rather than arrays.
 class Question():
     def __init__(self, questionLine):
+        #'title' of the question
         self.name = questionLine[0]
+        #2d array holding the answers, their True or False value and their optionnal description.
         self.answers = questionLine[1]
+        #amount of answers for that question.
         self.choices = len(self.answers)
 
+#variable initialisation
+#4d list -> questionnaire[] list holds lists of [questions groups] -> each question group[] list holds a list of question title + [answers]
+# -> answers[] list holds list of each [answer] -> answer[] list holds the answer title + true/false value + optionnal description
 questionnaire = qcm.build_questionnaire('QCM.txt')
+#variable tells me what question the user looks at now.
 progress = 0
-reDisplay = True
+#This 2D list will hold the lists of orders in which the questions will be randomly displayed.
+#The first index of the list = index of the question in questions object-list. 
+#The second index of the list = index of the answer according to the order in which they have been written in the text file.
+#The value associated to each index = the new order in which the answers will be displayed.
 answerOrder = []
+#This list holds all the question objects created by the questions class based on the questionnaire list based on the text file parsed by build_questionnaire.
 questions = []
+#This list will hold the index of the answers the user will have chosen, or -1 by default to indicate he hasn't answered.
 input = []
-grades = False
+#This list holds two lists. The first holds the total amount of points that have been scored according to the three marking methods. 
+#The second holds the sequence of values of the chosen answer (is the chosen answer true or false)
 results = []
+#This variable holds the total amount of answers that have been written for all questions in the text file
 amountAnswers = 0
+#This loop creates a new empty space at the end of the questions list and immediately stores an instance of the questions object according to the values stored in the questionnaire list
+#It also creates an empty space at the end of the input list and immediatley sets as unanswered by storing the value -1
 for i in range(len(questionnaire)):
     questions.append(Question(questionnaire[i]))
     input.append(-1)
+#Because after the questions I wanted to display this message before ending the first stage og the test (answering), I stored it at the end of the questions array without any answers.
 questions.append(Question(["Are you ready to submit your answers?", []]))
+#This loop creates a new empty list 
 for i in range(len(questions)-1):
     answerOrder.append([])
     for j in range(len(questions[i].answers)):
