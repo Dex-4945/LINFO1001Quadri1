@@ -30,7 +30,7 @@ class Question():
 #4d list -> questionnaire[] list holds lists of [questions groups] -> each question group[] list holds a list of question title + [answers]
 # -> answers[] list holds list of each [answer] -> answer[] list holds the answer title + true/false value + optionnal description
 questionnaire = qcm.build_questionnaire('QCM.txt')
-#variable tells me what question the user looks at now.
+#variable tells me what question the user is looking at.
 progress = 0
 #This 2D list will hold the lists of orders in which the questions will be randomly displayed.
 #The first index of the list = index of the question in questions object-list. 
@@ -51,7 +51,7 @@ amountAnswers = 0
 for i in range(len(questionnaire)):
     questions.append(Question(questionnaire[i]))
     input.append(-1)
-#Because after the questions I wanted to display this message before ending the first stage og the test (answering), I stored it at the end of the questions array without any answers.
+#Because after the questions I wanted to display this message before ending the first stage of the test (answering), I stored it at the end of the questions array without any answers.
 #The parameter I wrote to the Question class is a list because that is what it would have received from the questionnaire list
 questions.append(Question(["Are you ready to submit your answers?", []]))
 #This loop creates a new empty list at the end of the answerOrder list as long as it hasn't created a number of lists matching the number of objects stored in the questions list.
@@ -59,7 +59,7 @@ questions.append(Question(["Are you ready to submit your answers?", []]))
 for i in range(len(questions)-1):
     answerOrder.append([])
     #This loop initialises the list just created in answerOrder with the value -1. This will be usefull in the next loop.
-    #It also ads a value to amountAnswers every time an answer is stored. That way the exact number of answers is counted into the variable.
+    #It also adds a value to amountAnswers every time an answer is stored. That way the exact number of answers is counted into the variable.
     for j in range(len(questions[i].answers)):
         answerOrder[i].append(-1)
         amountAnswers += 1
@@ -102,7 +102,7 @@ def previousQuestion():
         progress -= 1
     showQuestion()
 
-#This function is called <hen an answered has been chosen by the user by a click on it.
+#This function is called when an answer has been chosen by the user by a click on it.
 #If the question was unanswered (value -1) then we store the index of the question in the list.
 #If the question was already answered and the user clicked again on the same answer as to deselect it, then we reset the value to unanswered (value -1)
 #If the question was already answered and the user choses a new answer by clicking on it then we simply change the stored value to the newly chosen one.
@@ -242,7 +242,7 @@ def displayGrades(mode):
 
     canvas.bind("<Configure>", on_configure)
 
-#When the user wants to submit his answers and get graded, a click on the "submit" buttons calls this function.
+#When the user wants to submit his answers and get graded, a click on the "submit" button calls this function.
 #This function displays buttons that make the user choose the way he wants his grades to be displayed (three modes + a comparative one)
 def submit():
     for widget in frm.winfo_children():
