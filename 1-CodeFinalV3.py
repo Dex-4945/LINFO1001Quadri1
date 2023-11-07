@@ -138,7 +138,8 @@ def markMe(input, questions):
             marks[1].append(False)
     return marks
 
-#This function arranges all the elemnts in the grade-displaying window
+#This function arranges all the elements in the grade-displaying window
+#If the 
 #details
 def showAll(previousRow, mode, frmGrades):
     for i in range(len(questions) - 1):
@@ -206,7 +207,7 @@ def showAll(previousRow, mode, frmGrades):
             ttk.Label(frmGrades, text = "Total : " + str(results[0][i]) + "/" + str(maxPoints[i])).grid(column = 2 + i, row = previousRow)
     return previousRow
 
-#This function initializes the grade-displaying window
+#This function initializes the grade-displaying window with a scrollbar so every answer can be displayed
 #details
 def displayGrades(mode):
     rootGrades = tk.Tk()
@@ -240,8 +241,11 @@ def displayGrades(mode):
 
     def on_configure(event):
         canvas.configure(scrollregion=canvas.bbox("all"))
+    def on_mousewheel(event):
+        canvas.yview_scroll(-1 * (event.delta // 120), "units")
 
     canvas.bind("<Configure>", on_configure)
+    canvas.bind("<MouseWheel>", on_mousewheel)
 
 #When the user wants to submit his answers and get graded, a click on the "submit" button calls this function.
 #This function displays buttons that make the user choose the way he wants his grades to be displayed (three modes + a comparative one)
