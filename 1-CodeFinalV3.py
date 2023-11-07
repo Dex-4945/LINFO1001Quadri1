@@ -89,7 +89,7 @@ for i in range(len(answerOrder)):
 #Second mode: +1 per good answer so maximum amount of points = amount of questions.
 #Third mode: amount of questions * points per question. The formula for the points per question = (amount of answers / (amount of questions - 1)).
 #The choice of this formula should make the points of a user choosing his answers randomly average to zero.
-maxPoints = [(len(questions) - 1), (len(questions) - 1), ((len(questions) - 1) * (round((amountAnswers/amountTrueAnswers), 2)))]
+maxPoints = [(len(questions) - 1), (len(questions) - 1), ((len(questions) - 1) * (round(((amountAnswers - amountTrueAnswers)/amountTrueAnswers), 2)))]
 
 #This function allows to display the next question of the questionnaire and is called by a click on the corresponding button (-->).
 #We achieve this by adding a value to the 'progress' variable, but only if the last question isn't reached. This prevents out-of-bounds errors.
@@ -136,7 +136,7 @@ def markMe(input, questions):
         if isCorrect == True:
             marks[0][0] += 1
             marks[0][1] += 1
-            marks[0][2] += (amountAnswers/amountTrueAnswers)
+            marks[0][2] += ((amountAnswers-amountTrueAnswers)/amountTrueAnswers)
             marks[1].append(True)
         else:
             marks[0][1] -= 1
@@ -168,9 +168,9 @@ def showAll(previousRow, mode, frmGrades):
         elif mode == 2:
             ttk.Label(frmGrades, text = "With balanced points").grid(column = 2, row = previousRow)
             if isCorrect:
-                ttk.Label(frmGrades, text = str(round((amountAnswers/amountTrueAnswers), 2)) + "/" + str(round((amountAnswers/amountTrueAnswers), 2)), foreground = 'green').grid(column = 2, row = previousRow + 1)
+                ttk.Label(frmGrades, text = str(round(((amountAnswers - amountTrueAnswers)/amountTrueAnswers), 2)) + "/" + str(round(((amountAnswers - amountTrueAnswers)/amountTrueAnswers), 2)), foreground = 'green').grid(column = 2, row = previousRow + 1)
             else:
-                ttk.Label(frmGrades, text = "-1/" + str(round((amountAnswers/amountTrueAnswers), 2)), foreground = 'red').grid(column = 2, row = previousRow + 1)
+                ttk.Label(frmGrades, text = "-1/" + str(round(((amountAnswers - amountTrueAnswers)/amountTrueAnswers), 2)), foreground = 'red').grid(column = 2, row = previousRow + 1)
         elif mode == 3:
             ttk.Label(frmGrades, text = "Without negative points").grid(column = 2, row = previousRow)
             if isCorrect:
@@ -184,9 +184,9 @@ def showAll(previousRow, mode, frmGrades):
                 ttk.Label(frmGrades, text = "-1/1", foreground = 'red').grid(column = 3, row = previousRow + 1)
             ttk.Label(frmGrades, text = "With balanced points").grid(column = 4, row = previousRow)
             if isCorrect:
-                ttk.Label(frmGrades, text = str(round((amountAnswers/amountTrueAnswers), 2)) + "/" + str(round((amountAnswers/amountTrueAnswers), 2)), foreground = 'green').grid(column = 4, row = previousRow + 1)
+                ttk.Label(frmGrades, text = str(round(((amountAnswers - amountTrueAnswers)/amountTrueAnswers), 2)) + "/" + str(round((amountAnswers/amountTrueAnswers), 2)), foreground = 'green').grid(column = 4, row = previousRow + 1)
             else:
-                ttk.Label(frmGrades, text = "-1/" + str(round((amountAnswers/amountTrueAnswers), 2)), foreground = 'red').grid(column = 4, row = previousRow + 1)
+                ttk.Label(frmGrades, text = "-1/" + str(round(((amountAnswers - amountTrueAnswers)/amountTrueAnswers), 2)), foreground = 'red').grid(column = 4, row = previousRow + 1)
         for j in range(questions[i].choices):
             if input[i] == answerOrder[i][j]:
                 if questions[i].answers[answerOrder[i][j]][1]:
