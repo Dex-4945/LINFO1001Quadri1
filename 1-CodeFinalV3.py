@@ -44,8 +44,10 @@ input = []
 #This list holds two lists. The first holds the total amount of points that have been scored according to the three marking methods. 
 #The second holds the sequence of values of the chosen answer (is the chosen answer true or false)
 results = []
-#This variable holds the total amount of answers that have been written for all questions in the text file
+#This variable holds the total amount of True answers that have been written for all questions in the text file
 amountTrueAnswers = 0
+#This variable holds the total amount of answers that have been written for all questions in the text file
+amountAnswers = 0
 #This loop creates a new empty space at the end of the questions list and immediately stores an instance of the questions object according to the values stored in the questionnaire list
 #It also creates an empty space at the end of the input list and immediatley sets as unanswered by storing the value -1
 for i in range(len(questionnaire)):
@@ -62,6 +64,7 @@ for i in range(len(questions)-1):
     #It also adds a value to amountTrueAnswers for each true answer in the questionnaire. That way the exact number of true answers is counted into the variable.
     for j in range(len(questions[i].answers)):
         answerOrder[i].append(-1)
+        amountAnswers += 1
         if questions[i].answers[j][1]:
             amountTrueAnswers += 1
 #This loop iterates through the 2D list answerOrder to store in it random integers ranging from 0 to the number of answers there are for each question.
@@ -130,7 +133,7 @@ def markMe(input, questions):
         if isCorrect == True:
             marks[0][0] += 1
             marks[0][1] += 1
-            marks[0][2] += ((amountTrueAnswers/(len(questions) - 1)) - 1)
+            marks[0][2] += (amountAnswers/amountTrueAnswers)
             marks[1].append(True)
         else:
             marks[0][1] -= 1
@@ -162,9 +165,9 @@ def showAll(previousRow, mode, frmGrades):
         elif mode == 2:
             ttk.Label(frmGrades, text = "With balanced points").grid(column = 2, row = previousRow)
             if isCorrect:
-                ttk.Label(frmGrades, text = str((amountTrueAnswers/(len(questions) - 1)) - 1) + "/" + str((amountTrueAnswers/(len(questions) - 1)) - 1), foreground = 'green').grid(column = 2, row = previousRow + 1)
+                ttk.Label(frmGrades, text = str(round((amountAnswers/amountTrueAnswers), 2)) + "/" + str(round((amountAnswers/amountTrueAnswers), 2)), foreground = 'green').grid(column = 2, row = previousRow + 1)
             else:
-                ttk.Label(frmGrades, text = "-1/" + str((amountTrueAnswers/(len(questions) - 1)) - 1), foreground = 'red').grid(column = 2, row = previousRow + 1)
+                ttk.Label(frmGrades, text = "-1/" + str(round((amountAnswers/amountTrueAnswers), 2)), foreground = 'red').grid(column = 2, row = previousRow + 1)
         elif mode == 3:
             ttk.Label(frmGrades, text = "Without negative points").grid(column = 2, row = previousRow)
             if isCorrect:
@@ -178,9 +181,9 @@ def showAll(previousRow, mode, frmGrades):
                 ttk.Label(frmGrades, text = "-1/1", foreground = 'red').grid(column = 3, row = previousRow + 1)
             ttk.Label(frmGrades, text = "With balanced points").grid(column = 4, row = previousRow)
             if isCorrect:
-                ttk.Label(frmGrades, text = str((amountTrueAnswers/(len(questions) - 1)) - 1) + "/" + str((amountTrueAnswers/(len(questions) - 1)) - 1), foreground = 'green').grid(column = 4, row = previousRow + 1)
+                ttk.Label(frmGrades, text = str(round((amountAnswers/amountTrueAnswers), 2)) + "/" + str(round((amountAnswers/amountTrueAnswers), 2)), foreground = 'green').grid(column = 4, row = previousRow + 1)
             else:
-                ttk.Label(frmGrades, text = "-1/" + str((amountTrueAnswers/(len(questions) - 1)) - 1), foreground = 'red').grid(column = 4, row = previousRow + 1)
+                ttk.Label(frmGrades, text = "-1/" + str(round((amountAnswers/amountTrueAnswers), 2)), foreground = 'red').grid(column = 4, row = previousRow + 1)
         for j in range(questions[i].choices):
             if input[i] == answerOrder[i][j]:
                 if questions[i].answers[answerOrder[i][j]][1]:
