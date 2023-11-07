@@ -62,7 +62,7 @@ for i in range(len(questions)-1):
     #It also adds a value to amountTrueAnswers for each true answer in the questionnaire. That way the exact number of true answers is counted into the variable.
     for j in range(len(questions[i].answers)):
         answerOrder[i].append(-1)
-        if questions[i].answers[j][1]
+        if questions[i].answers[j][1]:
             amountTrueAnswers += 1
 #This loop iterates through the 2D list answerOrder to store in it random integers ranging from 0 to the number of answers there are for each question.
 #We want to make sure the same random number isn't chosen twice. The chosen method:
@@ -219,6 +219,9 @@ def displayGrades(mode):
     canvas.config(yscrollcommand=scrollbar.set)
     frmGrades = ttk.Frame(canvas, padding=10)
     canvas.create_window((0, 0), window=frmGrades, anchor="nw")
+    def on_canvas_scroll(event):
+        canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
+    canvas.bind_all("<MouseWheel>", on_canvas_scroll)
 
     thisRow = 0
     if(mode == 0 or mode == 1):
@@ -241,11 +244,8 @@ def displayGrades(mode):
 
     def on_configure(event):
         canvas.configure(scrollregion=canvas.bbox("all"))
-    def on_mousewheel(event):
-        canvas.yview_scroll(-1 * (event.delta // 120), "units")
 
     canvas.bind("<Configure>", on_configure)
-    canvas.bind("<MouseWheel>", on_mousewheel)
 
 #When the user wants to submit his answers and get graded, a click on the "submit" button calls this function.
 #This function displays buttons that make the user choose the way he wants his grades to be displayed (three modes + a comparative one)
