@@ -67,9 +67,7 @@ for i in range(len(questions)-1):
         amountAnswers += 1
         if questions[i].answers[j][1]:
             amountTrueAnswers += 1
-            
-print(amountAnswers)
-print(amountTrueAnswers)
+
 #This loop iterates through the 2D list answerOrder to store in it random integers ranging from 0 to the number of answers there are for each question.
 #We want to make sure the same random number isn't chosen twice. The chosen method:
 #The entire list has been previously initialized to -1. as long as the value of the current indexes is -1, we try to store a random integer.
@@ -145,8 +143,7 @@ def markMe(input, questions):
     return marks
 
 #This function arranges all the elements in the grade-displaying window
-#If the 
-#details
+#For correct elements it is green, wrong is red, neutral is black
 def showAll(previousRow, mode, frmGrades):
     for i in range(len(questions) - 1):
         ttk.Label(frmGrades, text = questions[i].name).grid(column = 1, row = previousRow + 1)
@@ -214,7 +211,6 @@ def showAll(previousRow, mode, frmGrades):
     return previousRow
 
 #This function initializes the grade-displaying window with a scrollbar so every answer can be displayed
-#details
 def displayGrades(mode):
     rootGrades = tk.Tk()
     rootGrades.title("Grades")
