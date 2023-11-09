@@ -1,10 +1,12 @@
 #import necessary libraries for Tkinter which allows to create a window and determine where and how elemnts should be placed inside it.
 import tkinter as tk
 from tkinter import ttk
+from tkinter import filedialog
 #import the library that allows to parse the text file containning the questions, answers and descriptions of the questionnaire
 import qcm
 #import the random library to randomise the order in which the answers are displayed to the user
 import random
+
 
 #create a window
 root = tk.Tk()
@@ -29,7 +31,12 @@ class Question():
 #variable initialisation
 #4d list -> questionnaire[] list holds lists of [questions groups] -> each question group[] list holds a list of question title + [answers]
 # -> answers[] list holds list of each [answer] -> answer[] list holds the answer title + true/false value + optionnal description
-questionnaire = qcm.build_questionnaire('QCM.txt')
+def browseFiles():
+    filename = filedialog.askopenfilename(initialdir = "/", title = "Select a File",filetypes = (("Text files","*.txt*"),("all files","*.*")))
+
+    return filename
+
+questionnaire = qcm.build_questionnaire(browseFiles())
 #variable tells me what question the user is looking at.
 progress = 0
 #This 2D list will hold the lists of orders in which the questions will be randomly displayed.
@@ -67,7 +74,9 @@ for i in range(len(questions)-1):
         amountAnswers += 1
         if questions[i].answers[j][1]:
             amountTrueAnswers += 1
-
+            
+print(amountAnswers)
+print(amountTrueAnswers)
 #This loop iterates through the 2D list answerOrder to store in it random integers ranging from 0 to the number of answers there are for each question.
 #We want to make sure the same random number isn't chosen twice. The chosen method:
 #The entire list has been previously initialized to -1. as long as the value of the current indexes is -1, we try to store a random integer.
@@ -143,7 +152,8 @@ def markMe(input, questions):
     return marks
 
 #This function arranges all the elements in the grade-displaying window
-#For correct elements it is green, wrong is red, neutral is black
+#If the 
+#details
 def showAll(previousRow, mode, frmGrades):
     for i in range(len(questions) - 1):
         ttk.Label(frmGrades, text = questions[i].name).grid(column = 1, row = previousRow + 1)
@@ -211,6 +221,7 @@ def showAll(previousRow, mode, frmGrades):
     return previousRow
 
 #This function initializes the grade-displaying window with a scrollbar so every answer can be displayed
+#details
 def displayGrades(mode):
     rootGrades = tk.Tk()
     rootGrades.title("Grades")
